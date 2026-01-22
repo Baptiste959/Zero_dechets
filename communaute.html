@@ -2,20 +2,18 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Communauté — Zéro Déchets en Rade</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="communaute.css" />
   </head>
 
   <body
     class="page"
     style="
       background:
-        linear-gradient(
-          75deg,
-          rgba(255, 255, 255, 0.5),
-          rgba(255, 255, 255, 0.5)
-        ),
-        url(&quot;images/im.png&quot;) center / cover fixed;
+        linear-gradient(75deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
+        url('images/im.png') center / cover fixed;
       min-height: 100vh;
     "
   >
@@ -24,53 +22,115 @@
       <div class="logo">Zéro Déchets en Rade</div>
       <nav>
         <a href="index.html">Accueil</a>
-        <a href="missions.html">Missions</a>
+        <a href="Missions.html">Missions</a>
         <a href="communaute.html" class="active">Communauté</a>
       </nav>
-      <a href="Participer.html" class="btn">Participer</a>
+      <div class="header-right">
+        <button id="btnLogin" class="btn btn-small">Changer de pseudo</button>
+      </div>
     </header>
 
-    <main class="container">
-      <h1 class="page-title">Communauté</h1>
-      <p class="page-subtitle">
-        Canal global (simulation locale) : messages sauvegardés sur cet
-        ordinateur.
-      </p>
-
-      <section class="chat card">
-        <div class="chat-header">
-          <div>
-            <div class="chat-title">Canal global</div>
-            <div class="chat-hint">LocalStorage — démo sur un seul PC</div>
-          </div>
-          <div class="chat-actions">
-            <button id="btnChangeName" class="btn btn-small">
-              Changer pseudo
-            </button>
-            <button id="btnClear" class="btn-outline btn-small" type="button">
-              Effacer
-            </button>
-          </div>
+    <main class="container community">
+      <div class="community-head">
+        <div>
+          <h1 class="page-title">Communauté</h1>
+          <p class="page-subtitle">
+            Feed (avant/après) + classement + chat (démo locale sur cet ordinateur).
+          </p>
         </div>
 
-        <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+        <div class="me card" id="meBadge"></div>
+      </div>
 
-        <form id="chatForm" class="chat-form">
-          <input
-            id="chatInput"
-            class="chat-input"
-            type="text"
-            placeholder="Écris un message…"
-            maxlength="300"
-            autocomplete="off"
-            required
-          />
-          <button class="btn" type="submit">Envoyer</button>
-        </form>
-      </section>
+      <div class="community-grid">
+        <!-- FEED (centre) -->
+        <section class="feed">
+          <div class="card composer">
+            <div class="composer-title">Créer un post (Avant / Après)</div>
+
+            <textarea
+              id="postText"
+              class="composer-text"
+              placeholder="Décris l’action : lieu, déchets ramassés, nombre de sacs, équipe…"
+              maxlength="600"
+            ></textarea>
+
+            <div class="composer-row">
+              <label class="filebox">
+                <span>📸 Photo AVANT</span>
+                <input id="beforeImg" type="file" accept="image/*" />
+              </label>
+
+              <label class="filebox">
+                <span>📸 Photo APRÈS</span>
+                <input id="afterImg" type="file" accept="image/*" />
+              </label>
+
+              <button id="btnPublish" class="btn" type="button">Publier</button>
+            </div>
+
+            <div class="composer-hint">
+              Points : <b>+5</b> par post • <b>+10</b> par mission réalisée (déclarée).
+            </div>
+          </div>
+
+          <div id="feedList" class="feed-list"></div>
+        </section>
+
+        <!-- SIDEBAR (droite) -->
+        <aside class="sidebar">
+          <!-- Leaderboard -->
+          <section class="card leaderboard">
+            <div class="leaderboard-head">
+              <div>
+                <div class="leaderboard-title">Classement</div>
+                <div class="leaderboard-sub">Top 5 (missions + posts)</div>
+              </div>
+
+              <button id="btnAddMission" class="btn btn-small" type="button">
+                ✅ Mission réalisée
+              </button>
+            </div>
+
+            <div id="leaderboardList" class="leaderboard-list"></div>
+            <div class="leaderboard-legend">
+              <span><b>Points</b> = 10×missions + 5×posts</span>
+            </div>
+          </section>
+
+          <!-- Chat global (bandeau) -->
+          <section class="chat card">
+            <div class="chat-header">
+              <div>
+                <div class="chat-title">Canal global</div>
+                <div class="chat-hint">LocalStorage — démo sur un seul PC</div>
+              </div>
+              <div class="chat-actions">
+                <button id="btnClearChat" class="btn-outline btn-small" type="button">
+                  Effacer
+                </button>
+              </div>
+            </div>
+
+            <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+
+            <form id="chatForm" class="chat-form">
+              <input
+                id="chatInput"
+                class="chat-input"
+                type="text"
+                placeholder="Écris un message…"
+                maxlength="300"
+                autocomplete="off"
+                required
+              />
+              <button class="btn" type="submit">Envoyer</button>
+            </form>
+          </section>
+        </aside>
+      </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">© 2026 – Zéro Déchets en Rade</footer>
 
     <script src="communaute.js"></script>

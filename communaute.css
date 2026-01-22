@@ -1,0 +1,322 @@
+/* =========================================================
+   communaute.css (SCOPED)
+   Tout est préfixé par .community => aucun conflit global
+   Compatible avec ton style.css
+   ========================================================= */
+
+/* Layout général de la page communauté */
+.community {
+  max-width: 1200px;
+}
+
+/* Bandeau titre + badge perso */
+.community .community-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.community .me {
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.community .me .me-title {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.community .me .me-sub {
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+/* Grille : feed centre + sidebar droite */
+.community .community-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* ---------------- FEED ---------------- */
+.community .feed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Composer (création post) */
+.community .composer .composer-title {
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.community .composer .composer-text {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  outline: none;
+  resize: vertical;
+}
+
+.community .composer .composer-text:focus {
+  border-color: rgba(46, 204, 113, 0.9);
+}
+
+.community .composer .composer-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.community .composer .filebox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(15, 23, 42, 0.25);
+  border-radius: 10px;
+  cursor: pointer;
+  background: #fbfcfd;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.community .composer .filebox input {
+  display: none;
+}
+
+.community .composer .composer-hint {
+  margin-top: 10px;
+  opacity: 0.75;
+  font-size: 0.95rem;
+}
+
+/* Liste des posts */
+.community .feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Post */
+.community .post .post-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.community .post .post-author {
+  font-weight: 900;
+}
+
+.community .post .post-time {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.community .post .post-text {
+  margin: 10px 0 12px;
+  line-height: 1.5;
+}
+
+.community .post .post-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Photos avant/après */
+.community .post .post-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.community .post .post-imgbox {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f8fafc;
+  min-height: 180px;
+}
+
+.community .post .post-imgbox img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.community .post .imglabel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(15, 61, 46, 0.92);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.community .sidebar {
+  position: sticky;
+  top: 100px; /* sous le header fixed */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Leaderboard */
+.community .leaderboard .leaderboard-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.community .leaderboard .leaderboard-title {
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.community .leaderboard .leaderboard-sub {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.community .leaderboard .leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.community .leaderboard .lb-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fbfcfd;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.community .leaderboard .lb-rank {
+  font-weight: 900;
+}
+
+.community .leaderboard .lb-name {
+  font-weight: 800;
+}
+
+.community .leaderboard .lb-kpi {
+  text-align: right;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.community .leaderboard .lb-kpi small {
+  display: block;
+  opacity: 0.7;
+}
+
+.community .leaderboard .leaderboard-legend {
+  margin-top: 10px;
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+/* Chat bandeau (on garde tes styles chat de style.css, mais on ajuste la hauteur ici) */
+.community .chat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.community .chat-messages {
+  height: 320px; /* override local, sans toucher aux autres pages */
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 980px) {
+  .community .community-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .community .sidebar {
+    position: static;
+  }
+
+  .community .community-head {
+    flex-direction: column;
+  }
+
+  .community .me {
+    min-width: unset;
+  }
+
+  .community .post .post-images {
+    grid-template-columns: 1fr;
+  }
+}
+/* === SIDEBAR toujours dans l’écran === */
+.community .sidebar {
+  position: sticky;
+  top: 86px; /* ajuste si besoin (header + marge) */
+  max-height: calc(100vh - 86px);
+  overflow: hidden; /* empêche de dépasser en bas */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Chaque card ne doit pas forcer le dépassement */
+.community .sidebar > .card {
+  min-height: 0; /* IMPORTANT pour que les enfants puissent scroller */
+}
+
+/* Leaderboard : garde sa hauteur naturelle, mais peut scroller si trop grand */
+.community .leaderboard {
+  flex: 0 0 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Chat : prend tout l’espace restant */
+.community .chat.card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Messages : scroll interne (pas de hauteur fixe) */
+.community .chat-messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  height: auto; /* override de l’ancienne height */
+}
+
+/* Form du chat collée en bas de la card */
+.community .chat-form {
+  flex: 0 0 auto;
+}
