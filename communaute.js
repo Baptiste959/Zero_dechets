@@ -18,6 +18,52 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
+function seedPostsIfEmpty() {
+  const existing = loadPosts();
+  if (existing.length > 0) return;
+
+  const demo = [
+    {
+      id: "seed-1",
+      username: "Clément",
+      text: "Mission à Sainte-Anne du Portzic ✅ On a rempli 6 sacs (beaucoup de plastique + mégots). Avant / après ça fait plaisir 😄",
+      beforeImg: "1200x680.jpg",
+      afterImg: "apres1.webp",
+      likes: 7,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 30).toISOString(), // -30h
+    },
+    {
+      id: "seed-2",
+      username: "Baptiste",
+      text: "Plage du Moulin Blanc — gros spot à canettes… On a fait une zone clean en 45 min. 💪",
+      beforeImg: "coffres-de-déchets-sur-une-plage-propre-27234689.jpg",
+      afterImg: "apres2.jpg",
+      likes: 12,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString(), // -18h
+    },
+    {
+      id: "seed-3",
+      username: "Maël",
+      text: "Petit ramassage express après le taf. Pas énorme, mais chaque geste compte 🌿",
+      beforeImg: "plage-sale_shutterstock_1922237708.jpg",
+      afterImg: "apres3.jpg",
+      likes: 4,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(), // -6h
+    },
+  ];
+
+  savePosts(demo);
+
+  // bonus : on alimente aussi le classement (posts)
+  const stats = readJSON(KEYS.stats, {});
+  for (const p of demo) {
+    if (!stats[p.username]) stats[p.username] = { posts: 0, missions: 0 };
+    stats[p.username].posts += 1;
+  }
+  writeJSON(KEYS.stats, stats);
+}
+
+
 function readJSON(key, fallback) {
   try {
     return JSON.parse(localStorage.getItem(key)) ?? fallback;
