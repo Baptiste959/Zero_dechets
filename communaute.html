@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Communauté — Zéro Déchets en Rade</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body
+    class="page"
+    style="
+      background:
+        linear-gradient(
+          75deg,
+          rgba(255, 255, 255, 0.5),
+          rgba(255, 255, 255, 0.5)
+        ),
+        url(&quot;images/im.png&quot;) center / cover fixed;
+      min-height: 100vh;
+    "
+  >
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">Zéro Déchets en Rade</div>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="missions.html">Missions</a>
+        <a href="communaute.html" class="active">Communauté</a>
+      </nav>
+      <a href="Participer.html" class="btn">Participer</a>
+    </header>
+
+    <main class="container">
+      <h1 class="page-title">Communauté</h1>
+      <p class="page-subtitle">
+        Canal global (simulation locale) : messages sauvegardés sur cet
+        ordinateur.
+      </p>
+
+      <section class="chat card">
+        <div class="chat-header">
+          <div>
+            <div class="chat-title">Canal global</div>
+            <div class="chat-hint">LocalStorage — démo sur un seul PC</div>
+          </div>
+          <div class="chat-actions">
+            <button id="btnChangeName" class="btn btn-small">
+              Changer pseudo
+            </button>
+            <button id="btnClear" class="btn-outline btn-small" type="button">
+              Effacer
+            </button>
+          </div>
+        </div>
+
+        <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+
+        <form id="chatForm" class="chat-form">
+          <input
+            id="chatInput"
+            class="chat-input"
+            type="text"
+            placeholder="Écris un message…"
+            maxlength="300"
+            autocomplete="off"
+            required
+          />
+          <button class="btn" type="submit">Envoyer</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">© 2026 – Zéro Déchets en Rade</footer>
+
+    <script src="communaute.js"></script>
+  </body>
+</html>

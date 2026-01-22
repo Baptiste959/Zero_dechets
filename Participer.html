@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participer à une mission – Zéro Déchets en Rade</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="Participer.css" />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">Zéro Déchets en Rade</div>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="Missions.html">Missions</a>
+        <a href="communaute.html">Communauté</a>
+      </nav>
+      <a href="Participer.html" class="btn">Participer</a>
+    </header>
+
+    <div class="container">
+      <div class="page-header">
+        <h1>Participer à une mission de nettoyage</h1>
+        <p>Choisissez une mission existante ou créez un nouvel événement</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="join">
+          📋 Rejoindre une mission
+        </button>
+        <button class="tab-btn" data-tab="create">➕ Créer un événement</button>
+      </div>
+
+      <!-- Tab: Rejoindre une mission -->
+      <div class="tab-content active" id="join-tab">
+        <div class="content-grid">
+          <!-- Liste des événements -->
+          <div class="events-section">
+            <h2>📍 Missions disponibles</h2>
+
+            <div
+              class="event-card"
+              data-lieu="Plage du Moulin Blanc"
+              data-date="12/02/2026"
+              data-signalements="5"
+            >
+              <div class="event-header">
+                <div class="event-title">Plage du Moulin Blanc</div>
+                <span class="urgence-badge green">Faible</span>
+              </div>
+              <div class="event-info">
+                <div>📅 Mercredi 12 février 2026 - 14h00</div>
+                <div>🚨 5 signalements</div>
+                <div>👥 8 participants inscrits</div>
+              </div>
+            </div>
+
+            <div
+              class="event-card"
+              data-lieu="Plage Sainte-Anne du Portzic"
+              data-date="13/02/2026"
+              data-signalements="8"
+            >
+              <div class="event-header">
+                <div class="event-title">Plage Sainte-Anne du Portzic</div>
+                <span class="urgence-badge green">Faible</span>
+              </div>
+              <div class="event-info">
+                <div>📅 Jeudi 13 février 2026 - 15h30</div>
+                <div>🚨 8 signalements</div>
+                <div>👥 12 participants inscrits</div>
+              </div>
+            </div>
+
+            <div
+              class="event-card"
+              data-lieu="Plage du Douvez"
+              data-date="14/02/2026"
+              data-signalements="12"
+            >
+              <div class="event-header">
+                <div class="event-title">Plage du Douvez</div>
+                <span class="urgence-badge orange">Modéré</span>
+              </div>
+              <div class="event-info">
+                <div>📅 Vendredi 14 février 2026 - 10h00</div>
+                <div>🚨 12 signalements</div>
+                <div>👥 15 participants inscrits</div>
+              </div>
+            </div>
+
+            <div
+              class="event-card"
+              data-lieu="Plage du Passage"
+              data-date="15/02/2026"
+              data-signalements="9"
+            >
+              <div class="event-header">
+                <div class="event-title">Plage du Passage</div>
+                <span class="urgence-badge green">Faible</span>
+              </div>
+              <div class="event-info">
+                <div>📅 Samedi 15 février 2026 - 09h00</div>
+                <div>🚨 9 signalements</div>
+                <div>👥 20 participants inscrits</div>
+              </div>
+            </div>
+
+            <div
+              class="event-card"
+              data-lieu="Plage du Corbeau"
+              data-date="19/02/2026"
+              data-signalements="16"
+            >
+              <div class="event-header">
+                <div class="event-title">Plage du Corbeau</div>
+                <span class="urgence-badge orange">Modéré</span>
+              </div>
+              <div class="event-info">
+                <div>📅 Mercredi 19 février 2026 - 14h00</div>
+                <div>🚨 16 signalements</div>
+                <div>👥 18 participants inscrits</div>
+              </div>
+            </div>
+
+            <div
+              class="event-card"
+              data-lieu="Plage du Dellec"
+              data-date="17/02/2026"
+              data-signalements="23"
+            >
+              <div class="event-header">
+                <div class="event-title">Plage du Dellec</div>
+                <span class="urgence-badge red">Urgent</span>
+              </div>
+              <div class="event-info">
+                <div>📅 Lundi 17 février 2026 - 10h00</div>
+                <div>🚨 23 signalements</div>
+                <div>👥 25 participants inscrits</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire d'inscription -->
+          <div class="form-section">
+            <h2>✍️ Inscription</h2>
+
+            <div class="info-box">
+              ⚠️ Veuillez sélectionner une mission dans la liste pour vous
+              inscrire
+            </div>
+
+            <div class="selected-event-display" id="selectedEventDisplay">
+              <strong>Mission sélectionnée :</strong>
+              <div id="selectedEventText"></div>
+            </div>
+
+            <form id="participationForm">
+              <div class="form-group">
+                <label for="nom"
+                  >Nom complet <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  id="nom"
+                  name="nom"
+                  required
+                  placeholder="Jean Dupont"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="jean.dupont@example.com"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="telephone"
+                  >Téléphone <span class="required">*</span></label
+                >
+                <input
+                  type="tel"
+                  id="telephone"
+                  name="telephone"
+                  required
+                  placeholder="06 12 34 56 78"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="participants">Nombre de participants</label>
+                <select id="participants" name="participants">
+                  <option value="1">1 personne</option>
+                  <option value="2">2 personnes</option>
+                  <option value="3">3 personnes</option>
+                  <option value="4">4 personnes</option>
+                  <option value="5+">Plus de 5 personnes</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message (optionnel)</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Questions, besoins particuliers..."
+                ></textarea>
+              </div>
+
+              <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                <span>✓</span>
+                <span>Confirmer mon inscription</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Créer un événement -->
+      <div class="tab-content" id="create-tab">
+        <div class="create-event-container">
+          <!-- Carte interactive -->
+          <div class="map-section">
+            <h2>📍 Placer le point sur la carte</h2>
+            <div class="info-box">
+              💡 Cliquez sur la carte pour placer le marqueur à l'endroit
+              souhaité
+            </div>
+            <div id="createEventMap"></div>
+          </div>
+
+          <!-- Formulaire de création -->
+          <div class="create-form-section">
+            <h2>✍️ Informations de l'événement</h2>
+
+            <div
+              class="location-display"
+              id="locationDisplay"
+              style="display: none"
+            >
+              <strong>📍 Localisation</strong>
+              <div id="locationCoords"></div>
+            </div>
+
+            <form id="createEventForm">
+              <div class="form-group">
+                <label for="eventName"
+                  >Nom du lieu <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  id="eventName"
+                  name="eventName"
+                  required
+                  placeholder="Ex: Plage de Trez-Hir"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="eventDate"
+                  >Date et heure <span class="required">*</span></label
+                >
+                <input
+                  type="datetime-local"
+                  id="eventDate"
+                  name="eventDate"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="eventDescription">Description</label>
+                <textarea
+                  id="eventDescription"
+                  name="eventDescription"
+                  placeholder="Type de déchets, état du lieu..."
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="submit-btn"
+                id="createEventBtn"
+                disabled
+              >
+                <span>✓</span>
+                <span>Créer l'événement</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">© 2026 – Zéro Déchets en Rade</footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      let selectedEvent = null;
+      let createEventMarker = null;
+      let selectedLocation = null;
+
+      // Récupérer les paramètres de l'URL si on vient de la carte
+      const urlParams = new URLSearchParams(window.location.search);
+      const lieuFromUrl = urlParams.get("lieu");
+
+      // Gestion des tabs
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const targetTab = this.getAttribute("data-tab");
+
+          // Désactiver tous les tabs
+          tabBtns.forEach((b) => b.classList.remove("active"));
+          tabContents.forEach((c) => c.classList.remove("active"));
+
+          // Activer le tab sélectionné
+          this.classList.add("active");
+          document.getElementById(targetTab + "-tab").classList.add("active");
+
+          // Initialiser la carte si on affiche l'onglet créer
+          if (targetTab === "create" && !createEventMap) {
+            initCreateEventMap();
+          }
+        });
+      });
+
+      // Gestion de la sélection des événements
+      const eventCards = document.querySelectorAll(".event-card");
+      const submitBtn = document.getElementById("submitBtn");
+      const selectedEventDisplay = document.getElementById(
+        "selectedEventDisplay",
+      );
+      const selectedEventText = document.getElementById("selectedEventText");
+      const infoBox = document.querySelector("#join-tab .info-box");
+      const formSection = document.querySelector(".form-section");
+
+      // Charger et afficher les événements personnalisés
+      function loadCustomEvents() {
+        const customEvents = JSON.parse(
+          localStorage.getItem("customEvents") || "[]",
+        );
+        const eventsSection = document.querySelector(".events-section");
+
+        customEvents.forEach((event) => {
+          // Déterminer le badge d'urgence
+          let urgenceClass = "green";
+          let urgenceText = "Faible";
+          if (event.nbSignalements > 10 && event.nbSignalements <= 20) {
+            urgenceClass = "orange";
+            urgenceText = "Modéré";
+          } else if (event.nbSignalements > 20) {
+            urgenceClass = "red";
+            urgenceText = "Urgent";
+          }
+
+          // Créer la carte de l'événement
+          const eventCard = document.createElement("div");
+          eventCard.className = "event-card";
+          eventCard.setAttribute("data-lieu", event.lieu);
+          eventCard.setAttribute("data-date", event.date);
+          eventCard.setAttribute("data-signalements", event.nbSignalements);
+
+          eventCard.innerHTML = `
+                <div class="event-header">
+                    <div class="event-title">${event.lieu}</div>
+                    <span class="urgence-badge ${urgenceClass}">${urgenceText}</span>
+                </div>
+                <div class="event-info">
+                    <div>📅 ${event.date}</div>
+                    <div>🚨 ${event.nbSignalements} signalements</div>
+                    <div>👥 0 participants inscrits</div>
+                    ${event.description ? `<div>📝 ${event.description}</div>` : ""}
+                </div>
+            `;
+
+          // Ajouter l'événement de clic
+          eventCard.addEventListener("click", function () {
+            selectEvent(this);
+          });
+
+          // Ajouter la carte à la section
+          eventsSection.appendChild(eventCard);
+        });
+      }
+
+      // Charger les événements personnalisés au chargement de la page
+      loadCustomEvents();
+
+      eventCards.forEach((card) => {
+        // Si on vient de la carte, sélectionner l'événement correspondant
+        if (lieuFromUrl && card.getAttribute("data-lieu") === lieuFromUrl) {
+          selectEvent(card);
+        }
+
+        card.addEventListener("click", function () {
+          selectEvent(this);
+        });
+      });
+
+      function selectEvent(card) {
+        // Retirer la sélection précédente
+        eventCards.forEach((c) => c.classList.remove("selected"));
+
+        // Sélectionner la nouvelle carte
+        card.classList.add("selected");
+
+        // Récupérer les données
+        const signalements = parseInt(card.getAttribute("data-signalements"));
+        selectedEvent = {
+          lieu: card.getAttribute("data-lieu"),
+          date: card.getAttribute("data-date"),
+          signalements: signalements,
+        };
+
+        // Déterminer la couleur
+        let colorClass = "green";
+        if (signalements > 10 && signalements <= 20) {
+          colorClass = "orange";
+        } else if (signalements > 20) {
+          colorClass = "red";
+        }
+
+        // Appliquer la couleur au formulaire
+        formSection.style.borderLeft = `6px solid ${getColor(colorClass)}`;
+        selectedEventDisplay.style.background = getBackgroundColor(colorClass);
+        selectedEventDisplay.style.borderLeftColor = getColor(colorClass);
+
+        // Changer la couleur du bouton
+        submitBtn.style.background = getGradient(colorClass);
+
+        // Afficher l'événement sélectionné
+        selectedEventText.innerHTML = `
+            <strong>${selectedEvent.lieu}</strong><br>
+            📅 ${selectedEvent.date}
+        `;
+        selectedEventDisplay.classList.add("show");
+        infoBox.style.display = "none";
+
+        // Activer le bouton
+        submitBtn.disabled = false;
+
+        // Scroll vers le formulaire sur mobile
+        if (window.innerWidth <= 968) {
+          document
+            .querySelector(".form-section")
+            .scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function getColor(colorClass) {
+        switch (colorClass) {
+          case "green":
+            return "#2e7d32";
+          case "orange":
+            return "#e67e22";
+          case "red":
+            return "#c62828";
+          default:
+            return "#2e7d32";
+        }
+      }
+
+      function getBackgroundColor(colorClass) {
+        switch (colorClass) {
+          case "green":
+            return "#e8f5e9";
+          case "orange":
+            return "#fff3e0";
+          case "red":
+            return "#ffebee";
+          default:
+            return "#e8f5e9";
+        }
+      }
+
+      function getGradient(colorClass) {
+        switch (colorClass) {
+          case "green":
+            return "linear-gradient(135deg, #4caf50, #2e7d32)";
+          case "orange":
+            return "linear-gradient(135deg, #ff9800, #e67e22)";
+          case "red":
+            return "linear-gradient(135deg, #f44336, #c62828)";
+          default:
+            return "linear-gradient(135deg, #4caf50, #2e7d32)";
+        }
+      }
+
+      // Gestion du formulaire d'inscription
+      document
+        .getElementById("participationForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          if (!selectedEvent) {
+            alert(
+              "⚠️ Veuillez sélectionner une mission avant de vous inscrire.",
+            );
+            return;
+          }
+
+          const nom = document.getElementById("nom").value;
+          const email = document.getElementById("email").value;
+
+          alert(
+            `✅ Inscription confirmée !\n\nMission : ${selectedEvent.lieu}\nDate : ${selectedEvent.date}\n\nMerci ${nom}, vous recevrez un email de confirmation à ${email}.`,
+          );
+
+          // Redirection
+          setTimeout(() => {
+            window.location.href = "Missions.html";
+          }, 2000);
+        });
+
+      // Initialisation de la carte pour créer un événement
+      let createEventMap = null;
+
+      function initCreateEventMap() {
+        createEventMap = L.map("createEventMap").setView([48.38, -4.48], 12);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap",
+        }).addTo(createEventMap);
+
+        // Icône pour le nouveau marqueur
+        const newMarkerIcon = new L.Icon({
+          iconUrl:
+            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+          shadowUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+
+        // Clic sur la carte pour placer le marqueur
+        createEventMap.on("click", async function (e) {
+          const lat = e.latlng.lat;
+          const lng = e.latlng.lng;
+
+          // Supprimer l'ancien marqueur s'il existe
+          if (createEventMarker) {
+            createEventMap.removeLayer(createEventMarker);
+          }
+
+          // Ajouter le nouveau marqueur
+          createEventMarker = L.marker([lat, lng], { icon: newMarkerIcon })
+            .addTo(createEventMap)
+            .bindPopup("📍 Nouvel événement")
+            .openPopup();
+
+          // Sauvegarder la localisation
+          selectedLocation = { lat, lng };
+
+          // Afficher les coordonnées
+          document.getElementById("locationDisplay").style.display = "block";
+          document.getElementById("locationCoords").innerHTML = `
+                Latitude: ${lat.toFixed(6)}<br>
+                Longitude: ${lng.toFixed(6)}
+            `;
+
+          // Activer le bouton de création
+          document.getElementById("createEventBtn").disabled = false;
+
+          // Récupérer l'adresse via géocodage inversé
+          try {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
+            );
+            const data = await response.json();
+            if (data.display_name) {
+              document.getElementById("locationCoords").innerHTML +=
+                `<br><small>${data.display_name}</small>`;
+            }
+          } catch (error) {
+            console.error("Erreur de géocodage inversé:", error);
+          }
+        });
+      }
+
+      // Gestion du formulaire de création d'événement
+      document
+        .getElementById("createEventForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          if (!selectedLocation) {
+            alert("⚠️ Veuillez placer un marqueur sur la carte.");
+            return;
+          }
+
+          const eventName = document.getElementById("eventName").value;
+          const eventDate = document.getElementById("eventDate").value;
+          const eventDescription =
+            document.getElementById("eventDescription").value;
+
+          // Sauvegarder dans localStorage
+          const newEvent = {
+            lieu: eventName,
+            lat: selectedLocation.lat,
+            lng: selectedLocation.lng,
+            nbSignalements: 1, // Commence à 1 signalement
+            date: new Date(eventDate).toLocaleDateString("fr-FR"),
+            description: eventDescription || "",
+          };
+
+          // DEBUG
+          console.log("Nouvel événement à sauvegarder:", newEvent);
+
+          // Récupérer les événements existants
+          let events = JSON.parse(localStorage.getItem("customEvents") || "[]");
+          events.push(newEvent);
+          localStorage.setItem("customEvents", JSON.stringify(events));
+
+          // DEBUG
+          console.log("Tous les événements sauvegardés:", events);
+
+          alert(
+            `✅ Événement créé avec succès !\n\nLieu : ${eventName}\nCoordonnées : ${selectedLocation.lat.toFixed(6)}, ${selectedLocation.lng.toFixed(6)}\n\nL'événement apparaîtra sur la carte.`,
+          );
+
+          // Redirection vers la carte
+          setTimeout(() => {
+            window.location.href = "Missions.html";
+          }, 2000);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carte des ramassages – Zéro Déchets en Rade</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="Missions.css" />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">Zéro Déchets en Rade</div>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="Missions.html">Missions</a>
+        <a href="communaute.html">Communauté</a>
+      </nav>
+      <a href="Participer.html" class="btn">Participer</a>
+    </header>
+
+    <div class="map-container">
+      <h2>Zones signalées par les citoyens</h2>
+
+      <div id="map"></div>
+
+      <div class="legend">
+        <strong>📍 Légende des urgences (cliquez pour filtrer)</strong>
+        <div class="legend-item active" data-filter="green">
+          <img
+            src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png"
+            alt="vert"
+          />
+          <span>1–10 signalements (Faible)</span>
+        </div>
+        <div class="legend-item active" data-filter="orange">
+          <img
+            src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png"
+            alt="orange"
+          />
+          <span>10–20 signalements (Modéré)</span>
+        </div>
+        <div class="legend-item active" data-filter="red">
+          <img
+            src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png"
+            alt="rouge"
+          />
+          <span>20+ signalements (Urgent)</span>
+        </div>
+        <button class="reset-btn" id="resetFilter">Afficher tout</button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">© 2026 – Zéro Déchets en Rade</footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      // Carte centrée et zoomée sur la rade de Brest
+      const map = L.map("map").setView([48.38, -4.48], 12);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+
+      // Icônes de marqueurs
+      const greenIcon = new L.Icon({
+        iconUrl:
+          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+        shadowUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+
+      const orangeIcon = new L.Icon({
+        iconUrl:
+          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png",
+        shadowUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+
+      const redIcon = new L.Icon({
+        iconUrl:
+          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+        shadowUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+
+      function getIcon(nbSignalements) {
+        if (nbSignalements <= 10) return greenIcon;
+        if (nbSignalements <= 20) return orangeIcon;
+        return redIcon;
+      }
+
+      function getColorClass(nbSignalements) {
+        if (nbSignalements <= 10) return "green";
+        if (nbSignalements <= 20) return "orange";
+        return "red";
+      }
+
+      // Un point par plage avec les coordonnées exactes
+      const plages = [
+        {
+          lieu: "Plage du Moulin Blanc",
+          lat: 48.397277,
+          lng: -4.431445,
+          nbSignalements: 5,
+          date: "12/02/2026",
+        },
+        {
+          lieu: "Plage Sainte-Anne du Portzic",
+          lat: 48.3622,
+          lng: -4.553,
+          nbSignalements: 8,
+          date: "13/02/2026",
+        },
+        {
+          lieu: "Plage du Douvez",
+          lat: 48.408067,
+          lng: -4.350041,
+          nbSignalements: 12,
+          date: "14/02/2026",
+        },
+        {
+          lieu: "Plage du Passage",
+          lat: 48.396445,
+          lng: -4.383696,
+          nbSignalements: 9,
+          date: "15/02/2026",
+        },
+        {
+          lieu: "Plage des sables Rouges",
+          lat: 48.391072,
+          lng: -4.408658,
+          nbSignalements: 4,
+          date: "16/02/2026",
+        },
+        {
+          lieu: "Plage du Dellec",
+          lat: 48.356152,
+          lng: -4.564747,
+          nbSignalements: 23,
+          date: "17/02/2026",
+        },
+        {
+          lieu: "Plage du Corbeau",
+          lat: 48.347875,
+          lng: -4.443128,
+          nbSignalements: 16,
+          date: "19/02/2026",
+        },
+      ];
+
+      // Récupérer les événements personnalisés depuis localStorage
+      const customEvents = JSON.parse(
+        localStorage.getItem("customEvents") || "[]",
+      );
+
+      // DEBUG: Afficher les événements dans la console
+      console.log("Événements personnalisés:", customEvents);
+      console.log("Nombre d'événements personnalisés:", customEvents.length);
+
+      // Fusionner les événements par défaut avec les événements personnalisés
+      const allEvents = [...plages, ...customEvents];
+
+      console.log("Total événements:", allEvents.length);
+
+      // Récupérer les signalements déjà effectués
+      const userSignalements = JSON.parse(
+        localStorage.getItem("userSignalements") || "{}",
+      );
+
+      // Stockage des marqueurs
+      const markers = {};
+
+      // Fonction pour créer le bouton signaler
+      function createSignalerButton(plage, isCustom, eventIndex) {
+        const hasSignaled = userSignalements[plage.lieu] === true;
+        const btnClass = hasSignaled ? "popup-btn-disabled" : "popup-btn";
+        const btnText = hasSignaled ? "✓ Déjà signalé" : "🚨 Signaler";
+        const disabled = hasSignaled ? "disabled" : "";
+
+        return `
+            <button class="${btnClass}" ${disabled} onclick="signalerLieu('${plage.lieu.replace(/'/g, "\\'")}', ${isCustom}, ${eventIndex})">
+                ${btnText}
+            </button>
+        `;
+      }
+
+      // Ajout des marqueurs avec popup
+      allEvents.forEach((plage, index) => {
+        const colorClass = getColorClass(plage.nbSignalements);
+        const isCustom = index >= plages.length;
+        const eventIndex = isCustom ? index - plages.length : index;
+
+        const marker = L.marker([plage.lat, plage.lng], {
+          icon: getIcon(plage.nbSignalements),
+        }).addTo(map).bindPopup(`
+            <div class="popup-content ${colorClass}" id="popup-${plage.lieu.replace(/\s+/g, "-")}">
+                <div class="popup-title ${colorClass}">${plage.lieu}</div>
+                <div class="popup-info">
+                    <div class="popup-info-item">
+                        <span>📅</span>
+                        <span><strong>Date :</strong> ${plage.date}</span>
+                    </div>
+                    <div class="popup-info-item">
+                        <span>🚨</span>
+                        <span><strong>Signalements :</strong> <span id="count-${plage.lieu.replace(/\s+/g, "-")}">${plage.nbSignalements}</span></span>
+                    </div>
+                    ${
+                      plage.description
+                        ? `
+                    <div class="popup-info-item" style="text-align: left; display: block;">
+                        <span>📝</span>
+                        <span><strong>Description :</strong> ${plage.description}</span>
+                    </div>
+                    `
+                        : ""
+                    }
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <a href="Participer.html?lieu=${encodeURIComponent(plage.lieu)}&date=${encodeURIComponent(plage.date)}&signalements=${plage.nbSignalements}" class="popup-btn">
+                        ✓ Participer
+                    </a>
+                    ${createSignalerButton(plage, isCustom, eventIndex)}
+                </div>
+            </div>
+        `);
+
+        // Stocker le marqueur par couleur
+        if (!markers[colorClass]) {
+          markers[colorClass] = [];
+        }
+        markers[colorClass].push(marker);
+      });
+
+      // Fonction globale pour signaler un lieu
+      window.signalerLieu = function (lieu, isCustom, eventIndex) {
+        // Vérifier si déjà signalé
+        if (userSignalements[lieu]) {
+          alert("⚠️ Vous avez déjà signalé ce lieu.");
+          return;
+        }
+
+        // Marquer comme signalé
+        userSignalements[lieu] = true;
+        localStorage.setItem(
+          "userSignalements",
+          JSON.stringify(userSignalements),
+        );
+
+        // Incrémenter le nombre de signalements
+        if (isCustom) {
+          customEvents[eventIndex].nbSignalements++;
+          localStorage.setItem("customEvents", JSON.stringify(customEvents));
+        } else {
+          plages[eventIndex].nbSignalements++;
+        }
+
+        // Mettre à jour l'affichage
+        const countElement = document.getElementById(
+          `count-${lieu.replace(/\s+/g, "-")}`,
+        );
+        if (countElement) {
+          const newCount = parseInt(countElement.textContent) + 1;
+          countElement.textContent = newCount;
+        }
+
+        // Désactiver le bouton
+        const popupElement = document.getElementById(
+          `popup-${lieu.replace(/\s+/g, "-")}`,
+        );
+        const buttons = popupElement.querySelectorAll("button");
+        buttons.forEach((btn) => {
+          if (btn.textContent.includes("Signaler")) {
+            btn.className = "popup-btn-disabled";
+            btn.disabled = true;
+            btn.innerHTML = "✓ Déjà signalé";
+          }
+        });
+
+        alert("✅ Signalement enregistré avec succès !");
+
+        // Recharger la page pour mettre à jour les couleurs des marqueurs
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      };
+
+      // Gestion des filtres
+      const legendItems = document.querySelectorAll(".legend-item");
+      const resetBtn = document.getElementById("resetFilter");
+      let activeFilters = new Set(["green", "orange", "red"]);
+
+      legendItems.forEach((item) => {
+        item.addEventListener("click", function () {
+          const filter = this.getAttribute("data-filter");
+
+          if (activeFilters.has(filter)) {
+            // Désactiver le filtre
+            activeFilters.delete(filter);
+            this.classList.remove("active");
+            this.classList.add("inactive");
+            // Masquer les marqueurs
+            if (markers[filter]) {
+              markers[filter].forEach((marker) => map.removeLayer(marker));
+            }
+          } else {
+            // Activer le filtre
+            activeFilters.add(filter);
+            this.classList.remove("inactive");
+            this.classList.add("active");
+            // Afficher les marqueurs
+            if (markers[filter]) {
+              markers[filter].forEach((marker) => marker.addTo(map));
+            }
+          }
+        });
+      });
+
+      // Bouton reset
+      resetBtn.addEventListener("click", function () {
+        activeFilters = new Set(["green", "orange", "red"]);
+
+        legendItems.forEach((item) => {
+          item.classList.remove("inactive");
+          item.classList.add("active");
+        });
+
+        // Afficher tous les marqueurs
+        Object.values(markers).forEach((markerGroup) => {
+          markerGroup.forEach((marker) => marker.addTo(map));
+        });
+      });
+    </script>
+  </body>
+</html>
