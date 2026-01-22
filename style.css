@@ -268,6 +268,7 @@ body {
   padding: 100px 40px;
   text-align: center;
   position: relative;
+  z-index: 1; /* Assure que la section est sous le header */
 }
 
 .cta::before {
@@ -297,6 +298,8 @@ body {
 
 .cta .btn-primary {
   margin: 0 10px;
+  position: relative;
+  z-index: 2; /* Assure que le bouton est cliquable */
 }
 
 /* FOOTER */

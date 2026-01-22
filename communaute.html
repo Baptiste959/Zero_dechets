@@ -12,8 +12,12 @@
     class="page"
     style="
       background:
-        linear-gradient(75deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
-        url('images/im.png') center / cover fixed;
+        linear-gradient(
+          75deg,
+          rgba(255, 255, 255, 0.55),
+          rgba(255, 255, 255, 0.55)
+        ),
+        url(&quot;images/im.png&quot;) center / cover fixed;
       min-height: 100vh;
     "
   >
@@ -35,7 +39,8 @@
         <div>
           <h1 class="page-title">Communauté</h1>
           <p class="page-subtitle">
-            Feed (avant/après) + classement + chat (démo locale sur cet ordinateur).
+            Feed (avant/après) + classement + chat (démo locale sur cet
+            ordinateur).
           </p>
         </div>
 
@@ -70,7 +75,8 @@
             </div>
 
             <div class="composer-hint">
-              Points : <b>+5</b> par post • <b>+10</b> par mission réalisée (déclarée).
+              Points : <b>+5</b> par post • <b>+10</b> par mission réalisée
+              (déclarée).
             </div>
           </div>
 
@@ -106,13 +112,21 @@
                 <div class="chat-hint">LocalStorage — démo sur un seul PC</div>
               </div>
               <div class="chat-actions">
-                <button id="btnClearChat" class="btn-outline btn-small" type="button">
+                <button
+                  id="btnClearChat"
+                  class="btn-outline btn-small"
+                  type="button"
+                >
                   Effacer
                 </button>
               </div>
             </div>
 
-            <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+            <div
+              id="chatMessages"
+              class="chat-messages"
+              aria-live="polite"
+            ></div>
 
             <form id="chatForm" class="chat-form">
               <input
